@@ -1,0 +1,109 @@
+Problem Description
+
+Given a linked list A , reverse the order of all nodes at even positions.
+
+
+
+Problem Constraints
+1 <= Size of linked list <= 100000
+
+
+
+Input Format
+First and only argument is the head of the Linked-List A.
+
+
+
+Output Format
+Return the head of the new linked list.
+
+
+
+Example Input
+Input 1:
+
+A = 1 -> 2 -> 3 -> 4
+Input 2:
+
+A = 1 -> 2 -> 3
+
+
+Example Output
+Output 1:
+
+ 1 -> 4 -> 3 -> 2
+Output 2:
+
+ 1 -> 2 -> 3
+
+
+Example Explanation
+Explanation 1:
+
+Nodes are positions 2 and 4 have been swapped.
+Explanation 2:
+
+No swapping neccassary here.
+**************************************************************************************************************
+
+
+
+
+
+ListNode* reverse(ListNode* head)
+{
+    ListNode* curr=head;
+    ListNode* prev=NULL;
+    while(curr)
+    {
+        ListNode* temp=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=temp;
+    }
+    return prev;
+}
+ListNode* Solution::solve(ListNode* A) 
+{
+    ListNode* even=A->next;
+    ListNode* odd=A;
+    ListNode* temp1=odd;
+    ListNode* temp2=even;
+   
+   while(temp1 && temp2 && temp1->next && temp2->next)
+   {
+       temp1->next=temp1->next->next;
+       
+       temp2->next=temp2->next->next;
+       temp2=temp2->next;
+       temp1=temp1->next;
+   }
+
+  if(temp1)
+  {
+     temp1->next=NULL;
+  }
+  if(temp2)
+  {
+      temp2->next=NULL;
+  }
+   
+ 
+   even=reverse(even);
+
+   ListNode* t1=odd;
+   ListNode* t2=B;
+   
+  while(t2)
+   {
+       ListNode* a=t1->next;
+       ListNode* b=t2->next;
+       t1->next=t2;
+       t2->next=a;
+
+       t1=a;
+       t2=b;
+   }
+   
+   return A;
+}

@@ -1,0 +1,89 @@
+Given the head of a linked list, return the list after sorting it in ascending order.
+
+ 
+
+Example 1:
+
+
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+Example 2:
+
+
+Input: head = [-1,5,3,4,0]
+Output: [-1,0,3,4,5]
+Example 3:
+
+Input: head = []
+Output: []
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [0, 5 * 104].
+-105 <= Node.val <= 105
+ 
+ *******************************************************************************************
+
+ class Solution {
+public:
+    ListNode* merge(ListNode* a,ListNode* b)
+    {
+       
+        ListNode* prev=NULL;
+        
+        if(a->val>b->val)
+        {
+            swap(a,b);
+        }
+        
+        ListNode* t1=a;
+        ListNode* t2=b;
+        
+        while(t1!=NULL && t2!=NULL)
+        {
+            while(t1 && t1->val<=t2->val)
+            {
+                prev=t1;
+                t1=t1->next;
+            }
+            
+            prev->next=t2;
+            swap(t1,t2);
+            
+        }
+        
+        return a;
+    }
+    ListNode* middle(ListNode* t)
+    {
+        ListNode* fast=t;
+        ListNode* slow=t;
+        while(fast->next!=NULL && fast->next->next!=NULL)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        
+        return slow;
+    }
+    ListNode* solve(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL)
+        {
+            return head;
+        }
+        ListNode* mid=middle(head);
+        ListNode* a=head;
+        ListNode* b=mid->next;
+        mid->next=NULL;
+        a=solve(a);
+        b=solve(b);
+        ListNode* ans=merge(a,b);
+        return ans;
+    }
+    ListNode* sortList(ListNode* head) 
+    {
+        return solve(head); 
+    }
+};

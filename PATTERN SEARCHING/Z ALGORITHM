@@ -1,0 +1,97 @@
+Another question which belongs to the category of questions which are intentionally stated vaguely. 
+
+Expectation is that you will ask for correct clarification or you will state your assumptions before you start coding.
+
+Implement strStr().
+
+strstr - locate a substring ( needle ) in a string ( haystack ).
+
+Try not to use standard library string functions for this question.
+
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+NOTE:
+
+Good clarification questions:
+
+What should be the return value if the needle is empty?
+
+What if both haystack and needle are empty?
+
+For the purpose of this problem, assume that the return value should be -1 in both cases.
+
+******************************************************************************************************************************************************
+TIME: O(N+M)
+SPACE: O(N+M)
+
+
+For a string str[0..n-1], Z array is of same length as string. An element Z[i] of Z array stores length of the longest substring starting 
+from str[i] which is also a prefix of str[0..n-1].
+
+
+void getvalue(string &s,vector<int>&z)
+{
+    int n=(int)s.length();
+    int l=0;
+    int r=0;
+    
+    for(int i=1;i<n;i++)
+    {
+        if(i>r)
+        {
+            l=r=i;
+            while(r<n && s[r-l]==s[r])
+            {
+                r++;
+            }
+            
+            z[i]=(r-l);
+            r--;
+        }
+        else
+        {
+            int k=i-l;
+            
+            if(z[k]<(r-i+1))
+            {
+                z[i]=z[k];
+            }
+            else
+            {
+                l=i;
+                while(r<n && s[r-l]==s[r])
+                {
+                     r++;
+                }
+                
+                z[i]=r-l;
+                r--;
+                
+            }
+        }
+    }
+    
+    return ;
+}
+int Solution::strStr(const string A, const string B) 
+{
+    string s=B+"$"+A;
+    
+
+    int n=(int)s.length();
+    int m=(int)B.length();
+    
+     vector<int>z(n,0);
+    
+     getvalue(s,z);
+    
+    
+    for(int i=0;i<n;i++)
+    {  
+       if(z[i]==m)
+       {
+           return (i-m-1);
+       }
+    }
+    return -1;
+}

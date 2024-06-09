@@ -1,0 +1,90 @@
+Problem Description
+
+Given a string A of size N, find and return the longest palindromic substring in A.
+
+Substring of string A is A[i...j] where 0 <= i <= j < len(A)
+
+Palindrome string:
+A string which reads the same backwards. More formally, A is palindrome if reverse(A) = A.
+
+Incase of conflict, return the substring which occurs first ( with the least starting index).
+
+
+
+Input Format
+First and only argument is a string A.
+
+
+
+Output Format
+Return a string denoting the longest palindromic substring of string A.
+
+
+
+Example Input
+A = "aaaabaaa"
+
+
+Example Output
+"aaabaaa"
+
+
+Example Explanation
+We can see that longest palindromic substring is of length 7 and the string is "aaabaaa".
+****************************************************************************************************************************
+TIME:O(N^2)
+SPACE:O(N)
+
+string Solution::longestPalindrome(string A) 
+{
+    int n=(int)A.length();
+    int ans=INT_MIN;
+    int start=-1;
+    
+    int first;
+    int second;
+    int i=0;
+    
+    while(i<n)
+    {
+       first=i;
+       second=i+1;
+       
+       while(first>=0 && second<n && A[first]==A[second])
+       {
+           first--;
+           second++;
+       }
+       
+       
+       if((second-first-1)>ans)
+       {
+           ans=second-first-1;
+           start=first+1;
+           
+       }
+       
+       first=i;
+       second=i;
+       
+       
+        while(first>=0 && second<n && A[first]==A[second])
+       {
+           first--;
+           second++;
+       }
+       
+        if((second-first-1)>ans)
+       {
+           ans=second-first-1;
+           start=first+1;
+           
+       }
+       
+       i++;
+    }
+    
+    string temp=A.substr(start,ans);
+    
+    return temp;
+}

@@ -1,0 +1,70 @@
+Given a singly linked list
+
+    L: L0 → L1 → … → Ln-1 → Ln,
+reorder it to:
+
+    L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
+You must do this in-place without altering the nodes’ values.
+
+For example,
+
+Given {1,2,3,4}, reorder it to {1,4,2,3}.
+
+
+******************************************************************************************************************************
+
+
+ListNode* reverse(ListNode* slow)
+{
+    ListNode* curr=slow;
+    ListNode* prev=NULL;
+    
+    while(curr)
+    {
+        ListNode* temp=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=temp;
+    }
+    
+    return prev;
+}
+ListNode* Solution::reorderList(ListNode* A)
+{
+    ListNode* fast=A;
+    ListNode* slow=A;
+  
+    
+    while(fast!=NULL && fast->next!=NULL && fast->next->next!=NULL)
+    {
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    
+    if(slow==NULL)
+    {
+        return A;
+    }
+    
+   
+    ListNode* B=reverse(slow->next);
+    slow->next=NULL;
+ 
+    ListNode* temp1=A;
+    ListNode* temp2=B;
+    
+    while(temp2!=NULL && temp1!=NULL)
+    {
+       ListNode* t1=temp1->next;
+       ListNode* t2=temp2->next;
+       temp1->next=temp2;
+       temp2->next=t1;
+       
+       temp2=t2;
+       temp1=t1;
+      
+    }
+  
+  return A;
+    
+}

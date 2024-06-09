@@ -1,0 +1,89 @@
+
+Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid.
+
+The following rules define a valid string:
+
+Any left parenthesis '(' must have a corresponding right parenthesis ')'.
+Any right parenthesis ')' must have a corresponding left parenthesis '('.
+Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+'*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string "".
+ 
+
+Example 1:
+
+Input: s = "()"
+Output: true
+Example 2:
+
+Input: s = "(*)"
+Output: true
+Example 3:
+
+Input: s = "(*))"
+Output: true
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s[i] is '(', ')' or '*'.
+******************************************************************************************************************************
+TIME: O(N)
+SPACE: O(N)
+
+
+class Solution {
+public:
+    bool checkValidString(string s) 
+    {
+        stack<int>star;
+        stack<int>s1;
+        
+        int n=(int)s.length();
+        
+        for(int i=0;i<n;i++)
+        {
+            if(s[i]=='(')
+            {
+                s1.push(i);
+            }
+            else if(s[i]=='*')
+            {
+                star.push(i);
+            }
+            else
+            {
+                if(!s1.empty())
+                {
+                    s1.pop();
+                }
+                else if(!star.empty())
+                { 
+                    star.pop();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
+       
+      
+      while(!s1.empty() && !star.empty() && s1.top()<star.top())
+      {
+          s1.pop();
+          star.pop();
+      }
+         
+        if(s1.empty())
+        {
+            return true;
+        }
+        
+        return false;
+        
+        
+        
+    }
+};
