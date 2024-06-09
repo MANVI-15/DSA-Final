@@ -1,0 +1,117 @@
+Given two words (start and end), and a dictionary, find the shortest transformation sequence from start to end, such that:
+
+Only one letter can be changed at a time
+Each intermediate word must exist in the dictionary
+If there are multiple such sequence of shortest length, return all of them. Refer to the example for more details.
+
+Note:
+
+All words have the same length.
+All words contain only lowercase alphabetic characters.
+Input Format
+
+The first argument is string start.
+The second argument is string end.
+The third argument is an array of strings dict
+Output Format
+
+Return all transformation sequences such that first word of each sequence is start and last word is end, all intermediate words belongs to dictionary(dict) and consecutive words had atmost 1 difference.  
+Example :
+
+:
+
+start = "hit"
+end = "cog"
+dict = ["hot","dot","dog","lot","log"]
+Return
+
+  [
+    ["hit","hot","dot","dog","cog"],
+    ["hit","hot","lot","log","cog"]
+  ]
+  
+  *************************************************************************************************************************************
+  void dfs(string &s,unordered_map<string,vector<string>>&parent,vector<vector<string>>&ans,
+vector<string>&temp,string &src)
+{
+    if(src==s)
+    {
+         temp.push_back(s);
+         ans.push_back(temp);
+         temp.pop_back();
+        
+        
+        return;
+    }
+    temp.push_back(s);
+    for(auto v:parent[s])
+    {
+        dfs(v,parent,ans,temp,src);
+    }
+    temp.pop_back();
+    return;
+ 
+}
+vector<vector<string> > Solution::findLadders(string start, string end, vector<string> &C) 
+{   
+    unordered_map<string,bool>dict;
+    unordered_map<string,vector<string>>parent;
+    unordered_map<string,int>dist;
+    vector<vector<string>>ans;
+    vector<string>temp;
+    
+    int n=(int)C.size();
+
+    for(int i=0;i<n;i++)
+    {
+       dist[C[i]]=INT_MAX; 
+       dict[C[i]]=true;
+      
+    }
+    
+    swap(start,end);
+
+    queue<string>q;
+    q.push(start);
+    dist[start]=0;
+   
+    while(!q.empty())
+    {
+       auto p=q.front();
+       q.pop();
+
+       if(p==end)
+       {
+         break;
+       }
+     
+       string s=p;
+       for(int i=0;i<s.length();i++)
+       {
+          for(int j=0;j<26;j++)
+          {
+            s[i]='a'+j;
+            if(dict.find(s)!=dict.end())
+            {
+                if(dist[s]==INT_MAX)
+                {
+                  q.push(s);
+                  dist[s]=dist[p]+1;
+                  parent[s].push_back(p);
+                }
+                else if(dist[s]==dist[p]+1)
+                {
+                    parent[s].push_back(p);
+                }
+            }
+            
+            s[i]=p[i];
+
+          }
+        }
+   }
+  
+    dfs(end,parent,ans,temp,start);
+
+    return ans;
+}

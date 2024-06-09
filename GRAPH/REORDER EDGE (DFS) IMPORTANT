@@ -1,0 +1,46 @@
+There are n cities numbered from 0 to n - 1 and n - 1 roads such that there is only one way to travel between two different cities (this network form a tree). Last year, The ministry of transport decided to orient the roads in one direction because they are too narrow.
+
+Roads are represented by connections where connections[i] = [ai, bi] represents a road from city ai to city bi.
+
+This year, there will be a big event in the capital (city 0), and many people want to travel to this city.
+
+Your task consists of reorienting some roads such that each city can visit the city 0. Return the minimum number of edges changed.
+
+It's guaranteed that each city can reach city 0 after reorder.
+
+****************************************************************************************************************************
+
+class Solution {
+public:
+    void dfs(int u,unordered_map<int,bool>&visited,unordered_map<int,vector<pair<int,int>>>&adj,int &ans)
+{
+    visited[u]=true;
+    for(auto node:adj[u])
+    {
+        if(!visited[node.first])
+        {
+            if(node.second==0)
+            {
+                ans++;
+            }
+            dfs(node.first,visited,adj,ans);
+        }
+    }
+    return ;
+}
+    int minReorder(int n, vector<vector<int>>& edgeList) 
+    {
+           unordered_map<int,vector<pair<int,int>>>adj;
+    unordered_map<int,bool>visited;
+    for(int i=0;i<(n-1);i++)
+    {
+        adj[edgeList[i][0]].push_back({edgeList[i][1],0});
+        adj[edgeList[i][1]].push_back({edgeList[i][0],1});
+       
+    }
+        int ans=0;
+        dfs(0,visited,adj,ans);
+        return ans;
+        
+    }
+};

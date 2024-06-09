@@ -1,0 +1,69 @@
+void dfs(int i,stack<int>&s,vector<int>adj[],int *vis)
+{
+    vis[i]=1;
+    
+    for(auto node:adj[i])
+    {
+        if(!vis[node])
+        {
+            dfs(node,s,adj,vis);
+        }
+    }
+    s.push(i);
+}
+void revdfs(int i,unordered_map<int,vector<int>> &revadj,int *vis)
+{
+    vis[i]=1;
+    
+    for(auto node:revadj[i])
+    {
+        if(!vis[node])
+        {
+            revdfs(node,revadj,vis);
+        }
+    }
+}
+int kosaraju(int v, vector<int> adj[])
+{
+    int vis[v]={0};
+    unordered_map<int,vector<int>>revadj;
+    stack<int>s;
+    
+    for(int i=0;i<v;i++)
+    {
+        if(!vis[i])
+        {
+            dfs(i,s,adj,vis);
+        }
+    }
+    
+  for(int i=0;i<v;i++)
+  {
+    for(auto it:adj[i])
+    {
+        revadj[it].push_back(i);
+    }
+  }
+  
+  for(int i=0;i<v;i++)
+  {
+      vis[i]=0;
+      
+  }
+  
+  int k=0;
+  while(!s.empty())
+  {
+      int p=s.top();
+      s.pop();
+      
+      if(!vis[p])
+      {
+          k=k+1;
+          revdfs(p,revadj,vis);
+      }
+  }
+   return k; 
+
+}
+
