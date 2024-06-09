@@ -1,0 +1,41 @@
+TIME: O(NloglogN)
+
+#include<bits/stdc++.h>
+using namespace std;
+long long int MAX=100000000;
+vector<bool>prime(MAX,false);
+void seive()
+{
+    for(long long int i=3;i<MAX;i=i+2)
+    {
+        prime[i]=true;
+    }
+    vector<long long int>ans;
+    ans.push_back(2);
+    for(long long int i=3;i*i<MAX;i=i+2)
+    {
+       if(prime[i])
+       {
+           for(long long int j=i*i;j<MAX;j+=i)
+           {
+               prime[j]=false;
+           }
+       }
+    }
+
+    for(long long int i=3;i<MAX;i=i+2)
+    {
+        if(prime[i])
+        {
+           cout<<i<<endl;
+        }
+    }
+    
+   
+}
+int main()
+{
+
+    seive();
+
+}

@@ -1,0 +1,13 @@
+
+TIME: O(log(max(a,b)))
+
+
+int solve(int a,int b)
+{
+    if(a==0)
+    {
+        return b;
+    }
+
+    return solve(b%a,a)
+}
