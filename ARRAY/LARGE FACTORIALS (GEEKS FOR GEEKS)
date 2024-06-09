@@ -1,0 +1,47 @@
+Given an integer N, find its factorial.
+
+Example 1:
+
+Input: N = 5
+Output: 120
+Explanation : 5! = 1*2*3*4*5 = 120
+
+Example 2:
+
+Input: N = 10
+Output: 3628800
+Explanation :
+10! = 1*2*3*4*5*6*7*8*9*10 = 3628800
+
+class Solution 
+{
+public:
+    vector<int> factorial(int N) 
+    {
+      vector<int>v;
+      v.push_back(1);
+      
+      for(int i=2;i<=N;i++)
+      {
+          int siz=v.size();
+          int res=0;
+          
+          
+            for(int j=0;j<siz;j++)
+             {
+               int temp=v[j]*(i)+res;
+               v[j]=(temp%10);
+               res=temp/10;
+              }
+            
+          while(res>0)
+          {
+              v.push_back(res%10);
+              res=res/10;
+          }
+      }
+      
+      reverse(v.begin(),v.end());
+      return v;
+    }
+};

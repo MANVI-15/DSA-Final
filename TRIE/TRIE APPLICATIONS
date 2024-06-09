@@ -1,0 +1,26 @@
+TRIE APPLICATIONS
+
+First, a trie is a convenient way to store a set of strings. Inserting a string of length L in the trie takes O(L) time, which is optimal (you 
+need to access all characters in the string at least once to store it, after all). We can also check if the trie contains a string of length L in 
+O(L) time, which is also optimal.
+
+Trie also has some memory advantages. When several strings have a common prefix, trie reuses some nodes and edges for all of them, thus saving space.
+ Of course, in the worst case, when all stored strings start with a different letter, there are no memory optimizations.
+
+Trie is also relatively easy to code. The disadvantage here though is that trie is missing in the standard libraries of both Java and C++ (as well
+ as many other languages), so you will need to code it yourself.
+
+Trie is also very useful when working with prefixes. Because words with the same prefixes share nodes and edges in the trie, we can efficiently
+ answer the following questions with the trie (perhaps with some modifications):
+
+Are there any words in the trie that start with the prefix P?
+How many words in the trie start with the prefix P?
+What are all the words in the trie that start with the prefix P?
+Because of this, data structures similar to a trie are used in many real-life applications. Google search autocomplete is a great example of this. When you type the beginning of your search query, it looks for the possible ways to continue it that start with the typed prefix:
+
+
+
+You can try to figure out yourself how you can use trie to answer three prefix related questions above – it is a good exercise. 
+We will also cover this when we will study trie interview problems below. In general, when the interview question has something to do with 
+the string prefixes, you can try to see if you can use trie there.
+

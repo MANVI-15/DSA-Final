@@ -1,0 +1,57 @@
+Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
+
+You must write an algorithm that runs in O(n) time and uses only constant extra space.
+
+ 
+
+Example 1:
+
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [2,3]
+Example 2:
+
+Input: nums = [1,1,2]
+Output: [1]
+Example 3:
+
+Input: nums = [1]
+Output: []
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 105
+1 <= nums[i] <= n
+Each element in nums appears once or twice.
+***********************************************************************************
+
+
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) 
+    {
+        vector<int>ans;
+        
+        /*SINCE numbers are between [1,n] so  nums[abs(nums[i])-1] will give any number
+        between [0,n-1] which will come in the range of given array so at that index we will 
+        mark that value as negative now if this number s repeated then we will again mark this
+        position negative but since this position has already been marked negative it means the given number is repeated*/
+        for(int i=0;i<(int)nums.size();i++)
+        {
+            int temp=abs(nums[i])-1;
+            
+            if(nums[temp]<0)
+            {
+                ans.push_back(abs(nums[i]));
+            }
+            else
+            {
+                nums[temp]=-nums[temp];
+            }
+        }
+        
+        return ans;
+        
+    }
+};

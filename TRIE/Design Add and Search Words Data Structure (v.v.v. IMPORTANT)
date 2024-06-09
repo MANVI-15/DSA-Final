@@ -1,0 +1,107 @@
+Design a data structure that supports adding new words and finding if a string matches any previously added string.
+
+Implement the WordDictionary class:
+
+WordDictionary() Initializes the object.
+void addWord(word) Adds word to the data structure, it can be matched later.
+bool search(word) Returns true if there is any string in the data structure that matches word or false otherwise. word may contain dots '.' where dots can be matched with any letter.
+ 
+
+Example:
+
+Input
+["WordDictionary","addWord","addWord","addWord","search","search","search","search"]
+[[],["bad"],["dad"],["mad"],["pad"],["bad"],[".ad"],["b.."]]
+Output
+[null,null,null,null,false,true,true,true]
+
+Explanation
+WordDictionary wordDictionary = new WordDictionary();
+wordDictionary.addWord("bad");
+wordDictionary.addWord("dad");
+wordDictionary.addWord("mad");
+wordDictionary.search("pad"); // return False
+wordDictionary.search("bad"); // return True
+wordDictionary.search(".ad"); // return True
+wordDictionary.search("b.."); // return True
+*****************************************************************************************************************************
+
+class Node
+{
+    public:
+    char ch;
+    unordered_map<char,Node*>m;
+    bool isTerminal=false;
+    Node(char ch)
+    {
+        this->ch=ch;
+    }
+};
+class WordDictionary {
+public:
+    Node* root;
+    WordDictionary() 
+    {
+       root=new Node('\0');   
+    }
+    
+    void addWord(string word) 
+    {
+       Node *temp=root;
+       for(int i=0;i<word.length();i++)
+       {
+          if(temp->m.find(word[i])!=temp->m.end())
+          {
+              temp=temp->m[word[i]];
+          }
+          else
+          {
+              Node* t=new Node(word[i]);
+              temp->m[word[i]]=t;
+              temp=t;
+          }
+       }
+        temp->isTerminal=true;
+        return ;
+    }
+    bool check(int i,Node* temp,string word)
+    {
+          if(i==word.length())
+          {
+              return temp->isTerminal;
+          }
+           if(word[i]=='.')
+           {
+               for(auto v:temp->m)
+               {
+                   
+                  if(check(i+1,v.second,word))
+                  {
+                      return true;
+                  }
+               }
+               
+               return false;
+           }
+           
+           if(temp->m.find(word[i])!=temp->m.end())
+            {
+                 temp=temp->m[word[i]];
+            }
+            else
+            {
+                return false;
+            }
+            
+        
+        return check(i+1,temp,word);
+        
+    }
+    bool search(string word) 
+    {
+        Node *temp=root;
+        int i=0;
+        
+        return check(i,temp,word);
+    }
+};

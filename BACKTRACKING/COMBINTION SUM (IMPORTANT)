@@ -1,0 +1,66 @@
+Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+The same repeated number may be chosen from C unlimited number of times.
+
+ Note:
+All numbers (including target) will be positive integers.
+Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+The combinations themselves must be sorted in ascending order.
+CombinationA > CombinationB iff (a1 > b1) OR (a1 = b1 AND a2 > b2) OR … (a1 = b1 AND a2 = b2 AND … ai = bi AND ai+1 > bi+1)
+The solution set must not contain duplicate combinations.
+Example,
+Given candidate set 2,3,6,7 and target 7,
+A solution set is:
+
+[2, 2, 3]
+[7]
+
+****************************************************************************************************************
+
+void solve(int i,int B,vector<int>&arr,vector<vector<int>>&res,vector<int>&ans)
+{
+    if(B==0)
+    {
+        res.push_back(ans);
+        return ;
+    }
+    
+    if(i>=arr.size())
+    {
+        return ;
+    }
+    
+    //WE WILL HAVE TWO OPTIONS EITHER WE WILL TAKE ELEMENT IT OR NOT 
+    
+    //IF WE WILL IT THEN WE WILL NOT MOV TO NEXT INDEX BECAUSE WE CAN USE SAME ELEMENT MULTIPLE TIMES
+    
+    if(arr[i]<=B)
+    {
+        ans.push_back(arr[i]);
+        solve(i,B-arr[i],arr,res,ans);
+        ans.pop_back();
+    }
+    
+    
+    /*IF WE WILL NOT TAKE IT WE WILL MOVE TO NEXT INDEX THAT IS DIFFERENT FROM THIS ELEMENT 
+    BECAUSE ALL CASES OF TAKING THIS ELEMENT MULYIPLE TIMES ALL ALREADY CONSIDERD*/
+    
+    int j=i;
+    while(j<(int)arr.size() && arr[j]==arr[i])
+    {
+        j++;
+    }
+    
+    solve(j,B,arr,res,ans);
+    
+    return ;
+}
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) 
+{
+    vector<vector<int>>res;
+    vector<int>ans;
+    sort(A.begin(),A.end());
+    solve(0,B,A,res,ans);
+    
+    return res;
+}

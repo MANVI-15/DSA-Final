@@ -1,0 +1,40 @@
+TIME: O(Logn)
+SPACE:O(logn)
+
+2^10 = (2*2)^5 = 4^5
+4^5 = 4*(4^4)
+4^4 = (4*4)^2=(16)^2
+....
+
+
+
+double solve(int n,double x)
+{
+   double ans=1.0;
+    long long int  nn=n;
+    if(nn<0)
+    {
+        nn=-1*nn;
+    }
+
+    while(nn)
+    {
+        if(nn%2)
+        {
+            ans=ans*x;
+            nn--;
+        }
+        else
+        {
+            x=x*x;
+            nn=nn/2;
+        }
+    }
+
+    if(n<0)
+    {
+        ans=double(1.0)/(double)ans;
+    }
+
+    return ans;
+}

@@ -1,0 +1,85 @@
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root)
+    {
+        queue<TreeNode*>q;
+        q.push(root);
+        string s="";
+        
+        while(!q.empty())
+        {
+            auto p=q.front();
+            q.pop();
+            
+            if(p==NULL)
+            {
+                s+="#,";
+                continue;
+            }
+            else
+            {
+                s+=to_string(p->val)+",";
+            }
+            
+            q.push(p->left);
+            q.push(p->right);
+        }
+        
+        return s;
+    }
+
+
+    TreeNode* deserialize(string data) 
+    {
+        //converts the input string in stream so that it can be treated as object and be read through getline easily//
+        stringstream s(data);
+        string str;
+
+        /*getline extracts the input from stream put in string and stop reading the input stream when it reaches the delimeter extracts and remove the delimeter and start reading again from next point*/
+        getline(s,str,',');
+        TreeNode* root;
+        if(str=="#")
+        {
+            root=NULL;
+            return root;
+        }
+        root=new TreeNode(stoi(str));
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty())
+        {
+           auto p=q.front();
+           q.pop();
+            
+           getline(s,str,',');
+           if(str=="#")
+           {
+               p->left=NULL;
+           }
+           else
+            {
+                TreeNode* temp=new TreeNode(stoi(str));
+                p->left=temp;
+                q.push(temp);
+            }
+            
+            
+           getline(s,str,',');
+           if(str=="#")
+           {
+               p->right=NULL;
+           }
+           else
+            {
+                TreeNode* temp=new TreeNode(stoi(str));
+                p->right=temp;
+                q.push(temp);
+            }
+            
+        }
+        
+        return root;
+    }
+};

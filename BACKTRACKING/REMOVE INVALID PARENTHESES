@@ -1,0 +1,119 @@
+Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.
+
+Return all the possible results. You may return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: s = "()())()"
+Output: ["(())()","()()()"]
+Example 2:
+
+Input: s = "(a)())()"
+Output: ["(a())()","(a)()()"]
+Example 3:
+
+Input: s = ")("
+Output: [""]
+ 
+
+Constraints:
+
+1 <= s.length <= 25
+s consists of lowercase English letters and parentheses '(' and ')'.
+There will be at most 20 parentheses in s.
+
+******************************************************************************************************************************
+TIME:O(2^N)
+SPACE:O(N)
+
+
+class Solution {
+public:
+    void fun(int i,int total,string s,int open,vector<string>&ans,vector<char>&v,int n,set<string>&si)
+    {
+        if(i>=n)
+        {
+            string temp="";
+           
+            if(open==0)
+            {
+                for(int j=0;j<(int)v.size();j++)
+                {
+                    temp=temp+v[j];
+                }
+                if(si.find(temp)==si.end())
+                {
+                  ans.push_back(temp);
+                  si.insert(temp);
+                }
+            }
+            
+            return ;
+        }
+        
+        if(total && (s[i]==')' || s[i]=='('))
+        {
+             fun(i+1,total-1,s,open,ans,v,n,si);
+            
+        }
+        else if(s[i]>='a' && s[i]<='z')
+        {
+            v.push_back(s[i]);
+            fun(i+1,total,s,open,ans,v,n,si);
+            v.pop_back();
+            return;
+        }
+        if(s[i]=='(')
+        {
+            open++;
+            v.push_back('(');
+            fun(i+1,total,s,open,ans,v,n,si);
+            v.pop_back();
+        }
+        else
+        {
+            if(open>0)
+            {
+                open--;
+                v.push_back(')');
+                fun(i+1,total,s,open,ans,v,n,si);
+                v.pop_back();
+            }
+        }
+    }
+    vector<string> removeInvalidParentheses(string s) 
+    {
+        int open=0;
+        int close=0;
+        for(int i=0;i<(int)s.length();i++)
+        {
+            if(s[i]=='(')
+            {
+                open++;
+            }
+            else if(s[i]==')')
+            {
+                if(open>0)
+                {
+                    open--;
+                }
+                else
+                {
+                    close++;
+                }
+            }
+        }
+        int total=open+close;
+        
+       
+        vector<char>v;
+        vector<string>ans;
+        int n=(int)s.length();
+        set<string>si;
+        fun(0,total,s,0,ans,v,n,si);
+        return ans;
+        
+    }
+};

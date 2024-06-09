@@ -1,0 +1,56 @@
+
+Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+Each number in C may only be used once in the combination.
+
+ Note:
+All numbers (including target) will be positive integers.
+Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+The solution set must not contain duplicate combinations.
+Example :
+
+Given candidate set 10,1,2,7,6,1,5 and target 8,
+
+A solution set is:
+
+[1, 7]
+[1, 2, 5]
+[2, 6]
+[1, 1, 6]
+**********************************************************************************************************
+
+TIME: O(2^N)
+SPACE:O(N+K*X) K=combination X=LENGTH OF EACH combination
+
+void solve(int i,int n,vector<int>&A,vector<int>&temp,vector<vector<int>>&ans,int target)
+{ 
+    if(target==0)
+    {
+        ans.push_back(temp);
+        return ;
+    }
+    if(i>=n)
+    {
+        return ;
+    }
+    
+    temp.push_back(A[i]);
+    solve(i+1,n,A,temp,ans,target-A[i]);
+    temp.pop_back();
+    int j=i;
+    while(j<n && A[j]==A[i])
+    {
+        j++;
+    }
+    solve(j,n,A,temp,ans,target);
+    return;
+}
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) 
+{
+   vector<vector<int>>ans;
+   vector<int>temp;
+   int n=(int)A.size();
+   sort(A.begin(),A.end());
+   solve(0,n,A,temp,ans,B);
+   return ans;
+}

@@ -1,0 +1,80 @@
+Given a string A and a dictionary of words B, add spaces in A to construct a sentence where each word is a valid dictionary word.
+
+Return all such possible sentences.
+
+Note : Make sure the strings are sorted in your result.
+
+Input Format:
+
+The first argument is a string, A.
+The second argument is an array of strings, B.
+Output Format:
+
+Return a vector of strings representing the answer as described in the problem statement.
+Constraints:
+
+1 <= len(A) <= 50
+1 <= len(B) <= 25
+1 <= len(B[i]) <= 20
+Examples:
+
+Input 1:
+    A = "b"
+    B = ["aabbb"]
+
+Output 1:
+    []
+
+Input 1:
+    A = "catsanddog",
+    B = ["cat", "cats", "and", "sand", "dog"]
+
+Output 1:
+    ["cat sand dog", "cats and dog"]
+********************************************************************************************************************************
+
+
+void fun(int start,vector<string>v,vector<string>&ans,map<string,bool>&m,string &s,int n)
+     {
+         if(start>=n)
+         {
+             string t="";
+             for(int i=0;i<(int)v.size()-1;i++)
+             {
+                 t=t+v[i]+" ";
+             }
+             
+             t=t+v[v.size()-1];
+             ans.push_back(t);
+             return;
+         }
+         
+         for(int j=start;j<n;j++)
+         {
+                   string temp=s.substr(start,j-start+1);
+                   if(m.find(temp)!=m.end())
+                   {
+                       v.push_back(temp);
+                       fun(j+1,v,ans,m,s,n);
+                       v.pop_back();
+                   }
+         }
+         return;
+     }
+
+vector<string> Solution::wordBreak(string s, vector<string> &dict) 
+{
+    
+  
+        map<string,bool>m;
+        for(int i=0;i<(int)dict.size();i++)
+        {
+            m[dict[i]]=true;
+        }
+        int n=(int)s.length();
+        vector<string>ans;
+        vector<string>v;
+        fun(0,v,ans,m,s,n);
+        return ans;
+
+}

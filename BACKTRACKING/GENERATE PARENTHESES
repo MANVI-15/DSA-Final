@@ -1,0 +1,51 @@
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses of length 2*n.
+
+For example, given n = 3, a solution set is:
+
+"((()))", "(()())", "(())()", "()(())", "()()()"
+Make sure the returned list of strings are sorted.
+
+************************************************************************************************************************************
+TIME:O(2^N)
+SPACE:o(N)
+
+
+class Solution {
+public:
+    void solve(string ans,int open,vector<string>&v,int close,int total)
+    {
+        if(total==0)
+        {
+            if(open==close)
+            {
+               
+                v.push_back(ans);
+            }
+            return ;
+        }
+        
+        if(open>close)
+        {
+           
+            solve(ans+")",open,v,close+1,total-1);
+            
+          
+        }
+         
+        
+        solve(ans+"(",open+1,v,close,total-1);
+       
+        
+        return ;
+    }
+    vector<string> generateParenthesis(int n)
+    {
+        int open=0;
+        int close=0;
+        vector<string>v;
+        string ans="";
+        int total=2*n;
+        solve(ans,open,v,close,total);
+        return v;
+    }
+};

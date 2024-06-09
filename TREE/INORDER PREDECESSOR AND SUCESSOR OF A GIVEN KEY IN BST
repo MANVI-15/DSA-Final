@@ -1,0 +1,89 @@
+Given a BST and a key. The task is to find the inorder successor and predecessor of the given key. In case, if either of predecessor or successor is not present, then print -1.
+Examples: 
+
+Input:          50
+               /  \
+              /    \
+            30     70
+           / \     / \
+          /   \   /   \
+         20   40 60   80
+            key = 65
+Output: Predecessor : 60
+        Successor : 70
+
+Input:          50
+               /  \
+              /    \
+            30     70
+           / \     / \
+          /   \   /   \
+         20   40 60   80
+            key = 100
+Output: predecessor : 80
+        successor : -1
+Explanation: As no node in BST has key value greater 
+than 100 so -1 is printed for successor.
+
+****************************************************************************************************************************
+// C++ program to find predecessor
+// and successor in a BST
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// BST Node
+struct Node {
+    int key;
+    struct Node *left, *right;
+};
+ 
+// Function that finds predecessor and successor of key in BST.
+void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+{
+    if (root == NULL)
+        return;
+ 
+    // Search for given key in BST.
+    while (root != NULL) {
+ 
+        // If root is given key.
+        if (root->key == key) {
+ 
+            // the minimum value in right subtree
+            // is predecessor.
+            if (root->right) {
+                suc = root->right;
+                while (suc->left)
+                    suc = suc->left;
+            }
+ 
+            // the maximum value in left subtree
+            // is successor.
+            if (root->left) {
+                pre = root->left;
+                while (pre->right)
+                    pre = pre->right;
+            }
+ 
+            return;
+        }
+ 
+        // If key is greater than root, then
+        // key lies in right subtree. Root
+        // could be predecessor if left
+        // subtree of key is null.
+        else if (root->key < key) {
+            pre = root;
+            root = root->right;
+        }
+ 
+        // If key is smaller than root, then
+        // key lies in left subtree. Root
+        // could be successor if right
+        // subtree of key is null.
+        else {
+            suc = root;
+            root = root->left;
+        }
+    }
+}

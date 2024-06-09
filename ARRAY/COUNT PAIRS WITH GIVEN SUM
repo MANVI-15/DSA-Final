@@ -1,0 +1,86 @@
+Given an array of N integers, and an integer K, find the number of pairs of elements in the array whose sum is equal to K.
+
+
+Example 1:
+
+Input:
+N = 4, K = 6
+arr[] = {1, 5, 7, 1}
+Output: 2
+Explanation: 
+arr[0] + arr[1] = 1 + 5 = 6 
+and arr[1] + arr[3] = 5 + 1 = 6.
+
+Example 2:
+
+Input:
+N = 4, X = 2
+arr[] = {1, 1, 1, 1}
+Output: 6
+Explanation: 
+Each 1 will produce sum 2 with any 1.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function getPairsCount() which takes arr[], n and k as input parameters and returns the number of pairs that have sum K.
+
+
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+
+Constraints:
+1 <= N <= 105
+1 <= K <= 108
+1 <= Arr[i] <= 106
+
+ /**************************************************************************************************************************************/
+ TIME : O(N);
+ SPACE : O(N);
+
+
+ //we cannot use 2-pinter here bcause the answer for this 1,1,2,2,2 k=3 
+ two pointer:3 //if we dont check for duplicates
+ actual answer is: 6 for each 1is paired with 2
+
+
+ class Solution{   
+public:
+    int getPairsCount(int arr[], int n, int target) 
+    {
+        
+        unordered_map<int,int>m;
+        int ans=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(m.find(arr[i])==m.end())
+            {
+                m[arr[i]]=1;
+            }
+            else
+            {
+                m[arr[i]]=m[arr[i]]+1;
+            }
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+          
+          
+               if(m.find(target-arr[i])!=m.end())
+               {
+                   
+                   ans=ans+m[target-arr[i]];
+                   
+                   if(target-arr[i]==arr[i])
+                   {
+                       ans--;
+                   }
+               }
+        }
+        
+      return ans/2;
+        
+    }
+};
+
+

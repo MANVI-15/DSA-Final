@@ -1,0 +1,17 @@
+int main(){
+
+	// cout<<(5&7)<<endl;
+	// cout<<(5|7)<<endl;
+	// cout<<(5^7)<<endl;
+
+	// cout<<(5>>1)<<endl;  //LEFT SHIFT OPERATOR /2
+	// cout<<(5<<1)<<endl;  //RIGHT SHIFT OPERATOR *2
+
+	// cout<<setbitsCount(7)<<endl;
+	// cout<<setbitsCount(13)<<endl;
+
+	cout<<__builtin_popcount(7)<<endl;   //FOR COUNTING SET BITS INBUILT Function
+	cout<<__builtin_popcount(13)<<endl;
+
+	return 0;
+}

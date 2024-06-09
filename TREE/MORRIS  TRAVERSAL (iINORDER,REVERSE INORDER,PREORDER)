@@ -1,0 +1,109 @@
+MORRIS INORDER TRAVERSAL :
+
+THROUGH THIS WE CAN FIND KTH INORDER TRAVERSAL IN O(1) SPACE:
+
+
+while(current!=NULL)
+{
+    if(current->left==NULL)
+    {
+        cout<<current->val;
+        current=current->right;
+    }
+
+    else
+    {
+       pred=current->left;
+
+       while(pred->right!=current && pred->right==NULL)
+       {
+           pred=pred->right;
+       }
+
+       if(pred->right==NULL)
+       {
+           pred->right=current;
+           current=current->left;
+       }
+       else
+       {
+           pred->right=NULL;
+           cout<<current->val<<" ";
+           current=current->right;
+       }
+    }
+}
+
+
+REVERSE MORIS INORDER TRAVERSAL
+
+whiLe(curr!=NULL)
+{
+    if(cuur->right==NULL)
+    {
+        cout<<curr->val;
+        curr=curr->left;
+    }
+
+    else
+    {
+        succ=curr->right;
+
+        while(succ->left!=current && succ->lef!=NULL)
+        {
+            succ=succ->left;
+        }
+
+        if(succ->left==NULL)
+        {
+            succ->left=curr;
+            curr=curr->right;
+        }
+        else
+        {
+            succ->left=NULL;
+            cout<<curr->val<<endl;
+            curr=curr->left;
+        }
+    }
+}
+
+
+MORRIS PREORDER TRAVERSAL
+
+MORRIS INORDER TRAVERSAL :
+
+THROUGH THIS WE CAN FIND KTH INORDER TRAVERSAL IN O(1) SPACE:
+
+
+while(curr!=NULL)
+{
+    if(curr->left==NULL)
+    {
+        cout<<curr->val;
+        curr=curr->right;
+    }
+
+    else
+    {
+       pred=curr->left;
+
+       while(pred->right!=current && pred->right==NULL)
+       {
+           pred=pred->right;
+       }
+
+       if(pred->right==NULL)
+       {
+           
+           pred->right=current;
+           cout<<current->val;
+           current=current->left;
+       }
+       else
+       {
+           pred->right=NULL;
+           current=current->right;
+       }
+    }
+}

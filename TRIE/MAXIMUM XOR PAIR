@@ -1,0 +1,155 @@
+Given an integer array nums, return the maximum result of nums[i] XOR nums[j], where 0 <= i <= j < n.
+
+ 
+
+Example 1:
+
+Input: nums = [3,10,5,25,2,8]
+Output: 28
+Explanation: The maximum result is 5 XOR 25 = 28.
+Example 2:
+
+Input: nums = [0]
+Output: 0
+Example 3:
+
+Input: nums = [2,4]
+Output: 6
+Example 4:
+
+Input: nums = [8,10,2]
+Output: 10
+Example 5:
+
+Input: nums = [14,70,53,83,49,91,36,80,92,51,66,70]
+Output: 127
+ *******************************************************************************************************
+
+ TIME:O(N);
+
+
+ class Node
+{
+    public:
+    int data;
+    Node* left=NULL;
+    Node* right=NULL;
+    Node(int data)
+    {
+        this->data=data;
+    }
+};
+class Trie
+    {
+        Node* root;
+        
+        public: 
+        Trie()
+        {
+            root=new Node(-1);
+        }
+        void insert(int n)
+        {
+            Node* temp=root;
+            int bit;
+            
+
+            //WE STARTED TH TRAVERAL FROM LAST BIT BECAUSE WE WANT THE MAXIMUM XOR PAIR SO IF THE LAST BIT WILL BE UNMATCHED THAN WE WILL GET THE MAXIMUM ANSWER
+            for(int i=31;i>=0;i--)
+            {
+                bit=(n>>i)&1;  
+                
+                
+                if(bit)
+                {
+                    if(temp->right!=NULL)
+                    {
+                        temp=temp->right;
+                    }
+                    else
+                    {
+                        temp->right=new Node(1);
+                        temp=temp->right;
+                    }
+                }
+                else
+                {
+                   if(temp->left!=NULL)
+                    {
+                        temp=temp->left;
+                    }
+                    else
+                    {
+                        temp->left=new Node(0);
+                        temp=temp->left;
+                    }   
+                }
+            }
+            return ;
+        }
+        long long int find(int n)
+        {
+           Node* temp=root;
+           int ans=0;
+           int bit;
+           for(int i=31;i>=0;i--)
+             {
+                bit=(n>>i)&1;
+                
+                if(bit)
+                {
+                    if(temp->left!=NULL)
+                    {
+                        ans+=pow(2,i)*1;
+                        temp=temp->left;
+                    }
+                    else
+                    {
+                        
+                        temp=temp->right;
+                    }
+                }
+                else
+                {
+                   if(temp->right!=NULL)
+                    {
+                       ans+=pow(2,i)*1; 
+                       temp=temp->right;
+                    }
+                    else
+                    {
+                        
+                        temp=temp->left;
+                    }   
+                }
+            }
+            
+            return ans;
+        }
+};
+class Solution {
+public:
+    
+    int findMaximumXOR(vector<int>& nums) 
+    { 
+        int ans=0;
+        int n=(int)nums.size();
+        
+        Trie temp; 
+        
+        for(int i=0;i<n;i++)
+        {
+            temp.insert(nums[i]);
+        }
+        for(int i=0;i<n;i++)
+        {
+          
+              int k=temp.find(nums[i]);
+              
+              ans=max(ans,k);
+            
+        }
+        
+        return ans;
+    }
+};
