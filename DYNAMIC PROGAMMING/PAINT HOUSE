@@ -1,0 +1,80 @@
+
+/**********************************************************************************************************************************************/
+TIME : O(N)
+SPACE:O(3)
+
+//BEST SOLUTION
+int Solution::solve(vector<vector<int> > &A) {
+    int n=A.size();
+    vector<int> dp(3);
+    dp[0]=A[n-1][0];dp[1]=A[n-1][1];dp[2]=A[n-1][2];
+    for(int i=n-2;i>=0;i--)
+    {
+        int a=A[i][0]+min(dp[1],dp[2]);
+        int b=A[i][2]+min(dp[0],dp[1]);
+        int c=A[i][1]+min(dp[0],dp[2]);
+        dp[0]=a;dp[2]=b;dp[1]=c;
+    }
+    int ans=min(dp[0],min(dp[1],dp[2]));
+    return ans;
+}
+
+///////////////////////////////////////////////////
+int solve1(int row,int color,vector<vector<int>>&A,vector<vector<int>>&dp)
+{
+    if(row>=(int)A.size())
+    {
+        return 0;
+    }
+    
+    if(dp[row][color]!=INT_MAX)
+    {
+        return dp[row][color];
+    }
+    
+    int ans=INT_MAX;
+    
+    for(int col=0;col<3;col++)
+    {
+        if(col!=color)
+        {
+            ans=min(ans,A[row][col]+solve1(row+1,col,A,dp));
+        }
+    }
+    
+    dp[row][color]=ans;
+    
+    return ans;
+}
+int Solution::solve(vector<vector<int> > &A)
+{
+   int n=(int)A.size();
+   vector<vector<int>>dp(n+1,vector<int>(3,INT_MAX));
+   int ans=INT_MAX;
+   
+   for(int i=3;i>=0;i--)
+   {
+       dp[n][i]=0;
+   }
+   
+   for(int i=n-1;i>=0;i--)
+   {
+       for(int j=0;j<3;j++)
+       {
+           for(int k=0;k<3;k++)
+           {
+               if(k!=j)
+               {
+                   dp[i][j]=min(dp[i][j],A[i][k]+dp[i+1][k]);
+               }
+           }
+       }
+   }
+   
+   for(int j=0;j<3;j++)
+   {
+       ans=min(ans,dp[0][j]);
+   }
+   
+   return ans;
+}

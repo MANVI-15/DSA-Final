@@ -1,0 +1,45 @@
+Find the contiguous subarray within an array (containing at least one number) which has the largest product.
+Return an integer corresponding to the maximum product possible.
+
+Example :
+
+Input : [2, 3, -2, 4]
+Return : 6 
+
+Possible with [2, 3]
+
+********************************************************************************************
+TIME:o(N)
+SPACE:O(1)
+
+
+int Solution::maxProduct(const vector<int> &A) 
+{
+    int n=(int)A.size();
+    int l=1;
+    int r=1;
+    int ans=INT_MIN;
+    
+    for(int i=0;i<n;i++)
+    {
+         if(l==0)
+            {
+                l=A[i];
+            }
+            else
+            {
+                l=l*A[i];
+            }
+            if(r==0)
+            {
+                r=A[n-i-1];
+            }
+            else
+            {
+                r=r*A[n-i-1];
+            }
+            
+            ans=max({ans,l,r});
+    }
+    return ans;
+}

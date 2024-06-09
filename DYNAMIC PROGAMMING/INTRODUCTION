@@ -1,0 +1,83 @@
+DIFFERENCE BETWEEN BACTRACKING AND DYNAMIC PROGAMMING AND RECURSION
+
+RECURSION : take all possible choices into consideration and then find the final anwer according to the given condition(matlb saare choices ko consideration
+karo aur phir final answer nikalo unme se jo given condition satisfy kare)
+
+BACKTRACKING: It is same as recursion but optimised form if we are unable to fins the valid candidate solution through current state then we just prune this
+state and backtrack to previous state(matlb recursion se thoda better agar solution na mile toh us branh ko wahi break kardo aur previous state se dusra answer
+dhudo search space reduce hojati hai)
+
+DYNAMIC PROGRAMMING: It is optimised version of recursion (matlb agar recursion ya backtracking mein agar hum same state bar bar visit karte hai toh
+yeh complexity bda deta hai usse acha hai hum us state ko store karle first time jab woh explore ho toh next time jab uski jarurat padegi toh
+hum directly uska ansWer use karpayenge)
+
+
+*********************************************************************************************************************************************
+TRICK:
+1. Jab bhi question mein choices ho ya question recursion ka lage toh pehle recursive solution likho aur agar usme repititive states ahi toh dp use karle
+nhi toh normal bactracking hi rehne do (jab hum visited ya (pichle saare states ke hoices current state  determine kar rhi toh)use karte hai recursion mein toh hum saare state ke condition use kar rahe kise particular state 
+ka answer nikalne ke liye so agr hum dp use bhi karenge toh koi fayeda nhi atlast visited humesha har state par different hogi toh saare possible path 
+cover ho hi jayenge isliye normal backtracking hi rehne do Ex: word search)
+
+2. Local changes (karne hoge backtracking mein jaise n queens mein karte hai check karo safe hai agar hi toh thik hai nhi toh undo the change)
+
+
+**********************************************************************************************************************************************************
+WHEN TO USE DYNAMIC PROGRAMMING
+
+1. OPTIMAL (MAXIMUM,MINIMUM,LONGEST,LARGEST,SMALLEST,SHORTEST)
+2. CHOICES GIVEN HO (MATLB RECURSION SE HO SAKTA HO)(MATLB KISE BE CHOICE KO LEKAR ANSWER AA SAKTA HAI)
+3. REPPITIVE SUBPROBLEMS HO
+
+**************************************************************************************************************************************************************
+
+STEPS TO SOLVE A NW QUESTION OF DYNAMIC PROGRAMMING:
+
+1. WRITE RECURSIVE CODE
+2. MEMOIZE THE RECURSIVE CODE
+3. TOP DOWN (TRICK: agar samjh na aaye kaise table fill ho rhi hai toh memoize version mein jitne bhi variable chang ho rh ho unhe replace karlo i,j,k.... se aur uske corresponding expresission likhle
+function call  ko remove karkakr dp table se replce karlo then pta chaljayega ki current value fill karne ke liye kaunse values chaiye aur bas usse fill kardo
+a
+ur phir bas jaise memoize version likha waise likhdo 
+
+replace:
+function call: dp table
+recursion terminate condition: initialize condition of dp
+
+)
+
+
+*************************************************************************************************************************************************
+SPACE OPTIMIZATION TECHNIQUES IN DYNAMIC PROGRAMMING:
+
+CASE 1:
+If dp[i][j] depends upon (i-1,j) &(i,j-1) OR (i-1,j)(i,j-1)(i-1,j-1)  [means we just need value from two rows at at a time one from current row and one from above row]
+Solution: dp[i][j]=dp[i%2][j] && dp[(i-1)%2][j]
+
+CASE 2:
+If dp[i][j] depends upon (i-1,j)&&(i-1,j-1)  [means when we need value just from one row from above row]
+Solution: than we use 1-D array and space optimized technique of 2d knapsack
+
+CASE 3:
+If there are just finite number of columns we can use fixed number of variables
+Example: buy and sell stock
+
+CASE 4: Optimization technique of 2-d knapsack to 1-d knapsack
+**************************************************************************************************************************************************
+
+PATTERNS IN DYUNAMIC PROGRAMMING:
+1.Longest consecutive sequence
+2.Knapsack (bounded and unbounded)
+3.String
+4.Matrix
+5.Cumulative Sum
+6.longest increaing subsequence
+
+*************************************************************************************************************************************************
+TRICKS:
+
+1.When the current decision to take this choice or not depends upon the choices u have made in past then we can take an extra boolean variable which makes it more easy to write 
+DP . 
+EXAMPLE: 
+BUY AND SELL STOCK in this question we can buy or sell the stock at any day we have to choices (either buy or sell)  but the current choice that
+whether we can sell or not or we can buy or not depends upon past choice because we can sell only if we have buyed in past and we can buy only when we dont have any stock in hand currenty.
