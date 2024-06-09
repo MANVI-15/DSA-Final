@@ -1,0 +1,130 @@
+We can scramble a string s to get a string t using the following algorithm:
+
+If the length of the string is 1, stop.
+If the length of the string is > 1, do the following:
+Split the string into two non-empty substrings at a random index, i.e., if the string is s, divide it to x and y where s = x + y.
+Randomly decide to swap the two substrings or to keep them in the same order. i.e., after this step, s may become s = x + y or s = y + x.
+Apply step 1 recursively on each of the two substrings x and y.
+Given two strings s1 and s2 of the same length, return true if s2 is a scrambled string of s1, otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s1 = "great", s2 = "rgeat"
+Output: true
+Explanation: One possible scenario applied on s1 is:
+"great" --> "gr/eat" // divide at random index.
+"gr/eat" --> "gr/eat" // random decision is not to swap the two substrings and keep them in order.
+"gr/eat" --> "g/r / e/at" // apply the same algorithm recursively on both substrings. divide at ranom index each of them.
+"g/r / e/at" --> "r/g / e/at" // random decision was to swap the first substring and to keep the second substring in the same order.
+"r/g / e/at" --> "r/g / e/ a/t" // again apply the algorithm recursively, divide "at" to "a/t".
+"r/g / e/ a/t" --> "r/g / e/ a/t" // random decision is to keep both substrings in the same order.
+The algorithm stops now and the result string is "rgeat" which is s2.
+As there is one possible scenario that led s1 to be scrambled to s2, we return true.
+Example 2:
+
+Input: s1 = "abcde", s2 = "caebd"
+Output: false
+Example 3:
+
+Input: s1 = "a", s2 = "a"
+Output: true
+ 
+
+Constraints:
+
+s1.length == s2.length
+1 <= s1.length <= 30
+s1 and s2 consist of lower-case English letters.
+
+******************************************************************************************************************************
+TIME: O(N^4)
+SPACE:o(N^3)
+bool check(int i,int j,int len,const string A,const string B)
+    {
+        for(int k=0;k<len;k++)
+        {
+            if(A[i+k]!=B[j+k])
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    int solve(int i,int j,int len,vector<vector<vector<int>>>&dp,const string A,const string B)
+    {
+        if(len==0)
+        {
+            return 1;
+        }
+        if(len==1)
+        {
+            if(A[i]==B[j])
+            {
+                return 1;
+            }
+            
+            return 0;
+        }
+       
+        
+        //CONDITION WHEN THE PART OF A FULLY MATCHES WITH B
+        if(check(i,j,len,A,B))  
+        {
+            return 1;
+            
+        }
+        
+        if(dp[i][j][len]!=-1)
+        {
+            return dp[i][j][len];
+        }
+        
+        dp[i][j][len]=0;
+        for(int k=1;k<len;k++)
+        {
+
+            //WE HAVE TWO OPTIONS FOR EACH POSITION 1: EITHER SWAP   2:REMAIN same
+
+
+            //REMAIN SAME CONDITION
+            if(solve(i,j,k,dp,A,B)==1 && solve(i+k,j+k,len-k,dp,A,B)==1)
+            {
+                dp[i][j][len]=1;
+                break;
+               
+            }
+
+            //SWAPPING CONDITION
+            else if(solve(i,j+len-k,k,dp,A,B)==1 && solve(i+k,j,len-k,dp,A,B)==1)
+            {
+                dp[i][j][len]=1;
+                break;
+            }
+        }
+        
+        return dp[i][j][len];
+    }
+
+int Solution::isScramble(const string A, const string B) 
+{
+     int n=(int)A.length();
+        int m=(int)B.length();
+        
+        if(n!=m)
+        {
+            return false;
+        }
+        vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(n+1,vector<int>(n+1,-1)));
+        
+        int k=solve(0,0,n,dp,A,B);
+         
+        if(k==1)
+        {
+            return 1;
+        }
+        
+        return 0;
+}
