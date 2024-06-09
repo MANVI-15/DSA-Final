@@ -1,0 +1,96 @@
+Given K sorted arrays arranged in the form of a matrix of size K*K. The task is to merge them into one sorted array.
+Example 1:
+
+Input:
+K = 3
+arr[][] = {{1,2,3},{4,5,6},{7,8,9}}
+Output: 1 2 3 4 5 6 7 8 9
+Explanation:Above test case has 3 sorted
+arrays of size 3, 3, 3
+arr[][] = [[1, 2, 3],[4, 5, 6], 
+[7, 8, 9]]
+The merged list will be 
+[1, 2, 3, 4, 5, 6, 7, 8, 9].
+Example 2:
+
+Input:
+K = 4
+arr[][]={{1,2,3,4}{2,2,3,4},
+         {5,5,6,6},{7,8,9,9}}
+Output:
+1 2 2 2 3 3 4 4 5 5 6 6 7 8 9 9 
+Explanation: Above test case has 4 sorted
+arrays of size 4, 4, 4, 4
+arr[][] = [[1, 2, 2, 2], [3, 3, 4, 4],
+[5, 5, 6, 6]  [7, 8, 9, 9 ]]
+The merged list will be 
+[1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 
+6, 6, 7, 8, 9, 9 ].
+Your Task:
+You do not need to read input or print anything. Your task is to complete mergeKArrays() function which takes 2 arguments, an arr[K][K] 2D Matrix containing K sorted arrays and an integer K denoting the number of sorted arrays, as input and returns the merged sorted array ( as a pointer to the merged sorted arrays in cpp, as an ArrayList in java, and list in python)
+
+Expected Time Complexity: O(K^2*Log(K))
+Expected Auxiliary Space: O(K)
+
+
+
+*******************************************************************************************************************************
+TIME:O(N*KlogK)
+SPACE:O(k) if output doesnt needs to be stored
+
+BRUTE: TIME: O(N*Klog(N*k)) SPACE:O(N*K)
+
+class use
+{
+    public:
+    int row;
+    int col;
+    int value;
+    use(){}
+};
+class compare
+{
+    public:
+    bool operator()(use &t,use &k)
+    {
+        return t.value>k.value;
+    }
+};
+class Solution
+{
+    public:
+    //Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int k)
+    {
+        priority_queue<use,vector<use>,compare>pq;
+        
+        for(int i=0;i<k;i++)
+        {
+            use k;
+            k.row=i;
+            k.col=0;
+            k.value=arr[i][0];
+            pq.push(k);
+        }
+        
+        vector<int>v;
+        
+        while(!pq.empty())
+        {
+           use t=pq.top();
+           v.push_back(t.value);
+           pq.pop();
+           
+           if(t.col!=k-1)
+           {
+               use temp;
+               temp.row=t.row;
+               temp.col=t.col+1;
+               temp.value=arr[temp.row][temp.col];
+               pq.push(temp);
+           }
+        }
+        
+        return v;
+    }
+};

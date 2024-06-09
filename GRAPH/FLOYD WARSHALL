@@ -1,0 +1,48 @@
+//IT TELLS SHORTEST DISTANCE BETWEEN ALL PAIRS IN A DIRECTED GRAPH
+
+
+WE CAN USE IT FOR UNDIRECTED GRAPH BY CONVERTING IT INTO DIRECTED GRAPH
+
+TIME: O(N^3)
+SPACE:O(N^2)
+
+
+ int findTheCity(int n, vector<vector<int>>& edges, int dis)
+    {
+       vector<vector<int>>dp(n,vector<int>(n,INT_MAX));
+        
+        for(int i=0;i<(int)edges.size();i++)
+        {
+            dp[edges[i][0]][edges[i][1]]=edges[i][2];
+            dp[edges[i][1]][edges[i][0]]=edges[i][2];
+            
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            dp[i][i]=0;
+        }
+        
+       for(int k=0;k<n;k++)
+       {
+           for(int i=0;i<n;i++)
+           {
+               
+               for(int j=0;j<n;j++)
+               {
+                   if(dp[i][k]!=INT_MAX && dp[k][j]!=INT_MAX)
+                   {
+                       dp[i][j]=min(dp[i][j],dp[i][k]+dp[k][j]);
+                   }
+               }
+           }
+        
+       }
+
+       for(int i=0;i<n;i++)
+       {
+           for(int j=0;j<n;j++)
+           {
+               cout<<dp[i][j]<<endl;
+           }
+       }

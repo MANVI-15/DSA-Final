@@ -1,0 +1,67 @@
+COMPLEXITY: (V+E)LOGV
+
+//DIJIKSTRA ALGO IS USED TO FIND SHORTEST DISTANCE FROM NODE TO ALL VERTEX
+1.IT DOES'NT WORKS FOR NEGATIVE EDGES
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) 
+    {
+        set<pair<int,int>>s;
+        unordered_map<int,int>dist;
+        unordered_map<int,vector<pair<int,int>>>adjlist;
+       
+        for(int i=0;i<times.size();i++)
+        {
+            adjlist[times[i][0]].push_back({times[i][1],times[i][2]});
+            
+        }
+        for(int i=1;i<=N;i++)
+        {
+            dist[i]=INT_MAX;
+        }
+        int ans=INT_MIN;
+        s.insert({0,K});
+        dist[K]=0;
+        
+        while(!s.empty())
+        {
+            auto p=*s.begin();
+            s.erase(s.begin());
+            
+            int distance=p.first;
+            int u=p.second;
+            
+            for(auto v:adjlist[u])
+            {
+                if(dist[v.first]>(distance+v.second))
+                {
+                   auto rem=s.find({dist[v.first],v.first});
+                    
+                    if(rem!=s.end())
+                    {
+                        s.erase(rem);
+                    }
+                    
+                    s.insert({distance+v.second,v.first});
+                    dist[v.first]=v.second+distance;
+                }
+            }
+            
+        }
+        
+         ans=-1;
+        
+        for(auto node:dist)
+        {
+            if(node.second==INT_MAX)
+            {
+                return -1;
+            }
+            
+            ans=max(node.second,ans);
+        }
+        
+        return ans;
+       
+    }
+};

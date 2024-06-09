@@ -1,0 +1,84 @@
+Given two integer arrays A and B of size N each which represent values and weights associated with N items respectively.
+
+Also given an integer C which represents knapsack capacity.
+
+Find out the maximum value subset of A such that sum of the weights of this subset is smaller than or equal to C.
+
+NOTE:
+
+You cannot break an item, either pick the complete item, or don’t pick it (0-1 property).
+
+
+Problem Constraints
+1 <= N <= 103
+
+1 <= C <= 103
+
+1 <= A[i], B[i] <= 103
+
+
+
+Input Format
+First argument is an integer array A of size N denoting the values on N items.
+
+Second argument is an integer array B of size N denoting the weights on N items.
+
+Third argument is an integer C denoting the knapsack capacity.
+
+
+
+Output Format
+Return a single integer denoting the maximum value subset of A such that sum of the weights of this subset is smaller than or equal to C.
+
+*****************************************************************************************************************************************************
+TIME: O(N*W)
+SPACE:O(2*W)
+int Solution::solve(vector<int> &A, vector<int> &B, int C) 
+{
+   
+    int n=(int)A.size();
+     vector<vector<int>>dp(2,vector<int>(C+1,0));
+    
+    for(int i=0;i<=n;i++)
+    {
+        for(int j=0;j<=C;j++)
+        {
+            if(i==0 || j==0)
+            {
+                dp[i%2][j]=0;
+            }
+            else if(j>=B[i-1])
+            {
+                dp[i%2][j]=max(dp[(i-1)%2][j],A[i-1]+dp[(i-1)%2][j-B[i-1]]);
+            }
+            else
+            {
+                dp[i%2][j]=dp[(i-1)%2][j];
+            }
+            
+        }
+    }
+    
+    return dp[n%2][C];
+}
+
+//////////////space optimized///////////////////////////////////////////////
+
+int KnapSack(int val[], int wt[], int n, int W)
+{
+    
+    int dp[W+1];
+     
+  
+    memset(dp, 0, sizeof(dp));
+ 
+  
+    for(int i=0; i < n; i++)
+        
+        for(int j=W; j>=wt[i]; j--)
+            dp[j] = max(dp[j] , val[i] + dp[j-wt[i]]);
+    /*above line finds out maximum of  dp[j](excluding ith element value)
+      and val[i] + dp[j-wt[i]] (including ith element value and the
+      profit with "KnapSack capacity - ith element weight") */   
+    return dp[W];
+}

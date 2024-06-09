@@ -1,0 +1,116 @@
+
+You are given a string s of lower case english alphabets. You can choose any two characters in the string and replace all the occurences of the first character with the second character and replace all the occurences of the second character with the first character. Your aim is to find the lexicographically smallest string that can be obtained by doing this operation at most once.
+
+Example 1:
+
+Input:
+A = "ccad"
+Output: "aacd"
+Explanation:
+In ccad, we choose ‘a’ and ‘c’ and after 
+doing the replacement operation once we get, 
+aacd and this is the lexicographically
+smallest string possible. 
+ 
+
+Example 2:
+
+Input:
+A = "abba"
+Output: "abba"
+Explanation:
+In abba, we can get baab after doing the 
+replacement operation once for ‘a’ and ‘b’ 
+but that is not lexicographically smaller 
+than abba. So, the answer is abba. 
+
+Your Task:  
+You don't need to read input or print anything. Your task is to complete the function chooseandswap() which takes the string A as input parameters and returns the lexicographically smallest string that is possible after doing the operation at most once.
+
+Expected Time Complexity: O(|A|) length of the string A
+Expected Auxiliary Space: O(1)
+
+ 
+
+Constraints:
+1<= |A| <=105
+*****************************************************************************************************************************************
+TIME COMPLEXITY: O(N*27)
+SPACE:O(27)
+
+
+class Solution{
+public:
+    string chooseandswap(string a)
+    {
+        int n=(int)a.length();
+        vector<int>cnt(27,0);
+        char exchange='\0';
+        char temp='\0';
+        int  mini=INT_MAX;
+        
+        for(int i=0;i<n;i++)
+        {
+            cnt[a[i]-'a']++;
+            
+            if(cnt[a[i]-'a']!=0)
+            {
+                mini=min(mini,a[i]-'a');
+            }
+        }
+        
+      
+        
+        for(int i=0;i<n;i++)
+        {
+            if(a[i]==('a'+mini))
+            {
+                temp=mini;
+                for(int j=mini+1;j<27;j++)
+                {
+                    if(cnt[j]!=0)
+                    {
+                        temp=j;
+                        break;
+                    }
+                }
+                
+                if(temp==mini)
+                {
+                    break;
+                }
+                
+                mini=temp;
+                
+            }
+            else  if(a[i]>('a'+mini))
+            {
+                exchange='a'+mini;
+                temp=a[i];
+                break;
+            }
+        }
+        
+        
+        if(exchange!='\0')
+        {
+         for(int i=0;i<n;i++)
+          {
+            if(a[i]==exchange)
+            {
+                a[i]=temp;
+            }
+            else if(a[i]==temp)
+            {
+                a[i]=exchange;
+            }
+          }
+        }
+        
+        return a;
+        
+        
+       
+    }
+    
+};

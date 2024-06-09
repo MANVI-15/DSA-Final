@@ -1,0 +1,65 @@
+THIS ALGORITHM IS USED FOR FINDING MINIMUM SPANNING TREE
+
+TIME: O((V+E)LOGV)
+SPACE: O(V)
+
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) 
+    {
+        set<pair<int,int>>s;
+        unordered_map<int,int>dist;
+        unordered_map<int,vector<pair<int,int>>>adjlist;
+       
+        for(int i=0;i<times.size();i++)
+        {
+            adjlist[times[i][0]].push_back({times[i][1],times[i][2]});
+            
+        }
+        for(int i=1;i<=N;i++)
+        {
+            dist[i]=INT_MAX;
+        }
+        int ans=INT_MIN;
+        s.insert({0,0});
+        dist[0]=0;
+        parent[0]=0;
+        
+        while(!s.empty())
+        {
+            auto p=*s.begin();
+            s.erase(s.begin());
+            
+            int distance=p.first;
+            int u=p.second;
+            
+            visited[u]=true;
+            
+            for(auto v:adjlist[u])
+            {
+                if(dist[v.first]>(v.second) && visited[v.first]==false)
+                {
+                   auto rem=s.find({dist[v.first],v.first});
+                    
+                    if(rem!=s.end())
+                    {
+                        s.erase(rem);
+                    }
+                    
+                    parent[v.first]=u;
+                    s.insert({v.second,v.first});
+                    dist[v.first]=v.second;
+                }
+            }
+            
+        }
+        
+       for(i=0;i<n;i++)
+       {
+           cout<<parent[i]<<"->"<<i<<endl;
+       }
+        
+      
+       
+    }
+};

@@ -1,0 +1,101 @@
+
+Given an integer array nums and an integer k, return the kth largest element in the array.
+
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+Example 2:
+
+Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4
+***************************************************************************************************************************
+
+
+OPTIMAL : O(N lg K) running time + O(K) memory
+BRUTE: TAKING MAXHEAP SIMPLY O(NLOGN)+O(N)memory
+
+ int findKthLargest(vector<int>& nums, int k) 
+    {
+         priority_queue<int,vector<int>,greater<int>>pq;
+        int n=(int)nums.size();
+        
+        for(int i=0;i<n;i++)
+        {
+            pq.push(nums[i]);
+            
+            if(pq.size()>k)
+            {
+                pq.pop();
+            }
+        }
+        
+        
+       
+        return pq.top();
+    }
+
+
+2nd OPTIMAL METHOD:
+
+TIME : O(N) AVERAGE CASE T(N/2)+O(N)  WORST: O(N^2)
+SPACE: O(N)
+
+class Solution {
+public:
+    int part(int lo,int hi,vector<int>&nums)
+    {
+        int i=lo;
+        int j=lo;
+        int random = lo + rand() % (hi - lo+1);
+        swap(nums[random], nums[hi])    ;
+        int pivot=nums[hi];
+        
+        while(j<=hi)
+        {
+             if (nums[j] <= pivot)
+             {
+                int temp=nums[i];
+                 nums[i]=nums[j];
+                 nums[j]=temp;
+                 i++;
+                 j++;
+             }
+            else 
+            {
+              j++;
+            }
+            
+        }
+       
+        return i-1;
+    }
+    int largest(int lo,int hi,int k,vector<int>&nums)
+    {
+       int pos=part(lo,hi,nums);
+        
+       
+       if(((pos+1)-lo)==k)
+       {
+           return nums[pos];
+       }
+       else if(((pos+1)-lo)<k)
+       {
+            return largest(pos+1,hi,(k-(pos+1-lo)),nums);
+       }
+        return largest(lo,pos-1,k,nums);
+     
+        
+      
+    }
+    int findKthLargest(vector<int>& nums, int k) 
+    {
+        int n=(int)nums.size();
+        return largest(0,n-1,(n-k+1),nums);
+    }
+};
+
